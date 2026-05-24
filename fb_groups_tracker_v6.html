@@ -1,0 +1,376 @@
+
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/@fontsource/dm-sans@5/index.css">
+<style>
+*{box-sizing:border-box;margin:0;padding:0}
+body{font-family:'DM Sans',system-ui,sans-serif;-webkit-font-smoothing:antialiased}
+.app{border:0.5px solid var(--color-border-secondary);border-radius:12px;overflow:hidden;background:var(--color-background-secondary)}
+.hd{padding:16px 20px 12px;background:var(--color-background-primary);border-bottom:0.5px solid var(--color-border-tertiary)}
+.hd-brand{font-size:10px;font-weight:600;letter-spacing:.1em;text-transform:uppercase;color:var(--color-text-tertiary);margin-bottom:10px}
+.hd-row{display:flex;align-items:flex-start;justify-content:space-between;gap:12px}
+.stats{display:flex;gap:20px}
+.stat-n{font-size:24px;font-weight:600;line-height:1;letter-spacing:-.02em;color:var(--color-text-primary)}
+.stat-l{font-size:11px;color:var(--color-text-tertiary);margin-top:2px}
+.pbr{margin-top:12px;display:flex;align-items:center;gap:10px}
+.pbr-b{flex:1;height:3px;background:var(--color-background-secondary);border-radius:2px;overflow:hidden}
+.pbr-f{height:100%;background:#16A34A;border-radius:2px;transition:width .5s cubic-bezier(.4,0,.2,1)}
+.pbr-p{font-size:11px;color:var(--color-text-tertiary);min-width:28px;text-align:right}
+.ctrls{padding:8px 20px;background:var(--color-background-primary);border-bottom:0.5px solid var(--color-border-tertiary);display:flex;gap:7px;align-items:center;flex-wrap:wrap}
+input[type=checkbox]{width:16px;height:16px;accent-color:var(--color-text-primary);cursor:pointer;flex-shrink:0}
+.srch{flex:1;position:relative;min-width:140px}
+.srch-ic{position:absolute;left:9px;top:50%;transform:translateY(-50%);font-size:13px;color:var(--color-text-tertiary);pointer-events:none}
+.srch input{width:100%;padding:8px 8px 8px 28px;border:0.5px solid var(--color-border-secondary);border-radius:8px;font-size:14px;font-family:inherit;background:var(--color-background-primary);color:var(--color-text-primary);outline:none;-webkit-appearance:none}
+.srch input:focus{border-color:var(--color-border-primary)}
+.fsel{padding:7px 8px;border:0.5px solid var(--color-border-secondary);border-radius:8px;font-size:12px;font-family:inherit;background:var(--color-background-primary);color:var(--color-text-secondary);cursor:pointer;height:34px;-webkit-appearance:none;appearance:none;background-image:url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='10' height='6'%3E%3Cpath d='M1 1l4 4 4-4' stroke='%23999' stroke-width='1.5' fill='none' stroke-linecap='round'/%3E%3C/svg%3E");background-repeat:no-repeat;background-position:right 8px center;padding-right:24px}
+.rc{font-size:11px;color:var(--color-text-tertiary);white-space:nowrap}
+.split{display:grid;grid-template-columns:minmax(0,1fr) 308px;min-height:460px}
+.lp{border-right:0.5px solid var(--color-border-tertiary);overflow:hidden;display:flex;flex-direction:column}
+.tw{overflow-y:auto;flex:1;max-height:460px}
+.t{width:100%;border-collapse:collapse;table-layout:fixed}
+.t th{padding:7px 8px;text-align:left;font-size:10px;font-weight:600;letter-spacing:.07em;text-transform:uppercase;color:var(--color-text-tertiary);background:var(--color-background-secondary);border-bottom:0.5px solid var(--color-border-tertiary);position:sticky;top:0;z-index:1}
+.t td{padding:10px 8px;border-bottom:0.5px solid var(--color-border-tertiary);font-size:13px;color:var(--color-text-primary);vertical-align:middle;overflow:hidden;white-space:nowrap;text-overflow:ellipsis;cursor:pointer}
+.t tr:hover:not(.sr) td{background:var(--color-background-secondary)}
+.sr td{background:var(--color-background-success)!important}
+.cn{width:30px}.cn2{width:22px;color:var(--color-text-tertiary)!important;font-size:11px!important}.cna{width:auto}.crg{width:80px}.cst{width:88px}
+.bdg{display:inline-flex;align-items:center;padding:3px 9px;border-radius:20px;font-size:11px;font-weight:500;cursor:pointer;border:0.5px solid;user-select:none}
+.bok{background:#F0FDF4;color:#166534;border-color:#86EFAC}
+.bwt{background:#FFFBEB;color:#92400E;border-color:#FDE68A}
+.rtag{font-size:10px;color:var(--color-text-tertiary);background:var(--color-background-secondary);padding:2px 6px;border-radius:4px;border:0.5px solid var(--color-border-tertiary)}
+.mob-bar{padding:12px 16px;border-top:0.5px solid var(--color-border-tertiary);background:var(--color-background-primary);display:none;align-items:center;justify-content:space-between;gap:10px;flex-shrink:0}
+.mob-bar-l{font-size:13px;font-weight:500;color:var(--color-text-primary)}
+.mob-bar-s{font-size:11px;color:var(--color-text-tertiary);margin-top:1px}
+.rp{display:flex;flex-direction:column;background:var(--color-background-primary)}
+.emp{flex:1;display:flex;flex-direction:column;align-items:center;justify-content:center;padding:40px 24px;text-align:center;gap:8px;min-height:460px}
+.emp-ic{font-size:32px;color:var(--color-text-tertiary);opacity:.4}
+.emp-t{font-size:13px;font-weight:500;color:var(--color-text-secondary)}
+.emp-s{font-size:12px;color:var(--color-text-tertiary);line-height:1.6;max-width:200px}
+.ed{display:flex;flex-direction:column;min-height:460px}
+.mob-back-btn{display:none;align-items:center;gap:6px;padding:0;border:none;background:transparent;font-size:13px;font-family:inherit;color:var(--color-text-secondary);cursor:pointer;margin-bottom:10px}
+.mob-back-btn:hover{color:var(--color-text-primary)}
+.ed-top{padding:14px 16px 12px;border-bottom:0.5px solid var(--color-border-tertiary);flex-shrink:0}
+.ed-cnt{font-size:13px;font-weight:600;color:var(--color-text-primary)}
+.ed-sub{font-size:11px;color:var(--color-text-tertiary);margin-top:2px}
+.ed-tabs{display:flex;gap:4px;margin-top:10px;flex-wrap:wrap}
+.etab{padding:5px 10px;border:0.5px solid var(--color-border-secondary);border-radius:7px;font-size:12px;font-weight:500;cursor:pointer;background:var(--color-background-primary);color:var(--color-text-secondary);font-family:inherit;display:inline-flex;align-items:center;gap:5px;min-height:32px;-webkit-tap-highlight-color:transparent}
+.etab:hover{background:var(--color-background-secondary)}
+.etab.act{background:var(--color-text-primary);color:var(--color-background-primary);border-color:var(--color-text-primary)}
+.etab-ct{font-size:10px;opacity:.55;font-weight:400}
+/* NEW: badge for custom/new texts */
+.etab-new{font-size:9px;background:var(--color-background-warning);color:var(--color-text-warning);padding:1px 5px;border-radius:4px;font-weight:600;letter-spacing:.04em}
+.ed-body{flex:1;padding:12px 16px;display:flex;flex-direction:column}
+.ed-ta{flex:1;width:100%;min-height:200px;border:0.5px solid var(--color-border-secondary);border-radius:9px;padding:12px;font-size:15px;line-height:1.75;font-family:inherit;color:var(--color-text-primary);resize:none;outline:none;background:var(--color-background-primary);-webkit-appearance:none}
+.ed-ta:focus{border-color:var(--color-border-primary)}
+/* Dashed border for empty/new texts */
+.ed-ta.is-new{border-style:dashed;border-color:var(--color-border-secondary)}
+.ed-ft{padding:10px 16px;border-top:0.5px solid var(--color-border-tertiary);display:flex;align-items:center;gap:5px;flex-wrap:wrap;flex-shrink:0}
+.btn{padding:7px 13px;border:0.5px solid var(--color-border-secondary);border-radius:8px;background:var(--color-background-primary);color:var(--color-text-primary);font-size:13px;font-family:inherit;cursor:pointer;display:inline-flex;align-items:center;gap:5px;min-height:36px;white-space:nowrap;-webkit-tap-highlight-color:transparent}
+.btn:hover{background:var(--color-background-secondary)}
+.btn:active{transform:scale(.97)}
+.btn-pr{background:var(--color-text-primary);color:var(--color-background-primary);border-color:var(--color-text-primary)}
+.btn-pr:hover{opacity:.85}
+.btn-gh{color:var(--color-text-tertiary);border-color:var(--color-border-tertiary)}
+.btn-dn{border-color:#E24B4A;color:#A32D2D}
+.btn-dn:hover{background:#FCEBEB}
+.cc{font-size:11px;color:var(--color-text-tertiary);margin-left:auto}
+.fl{font-size:11px;color:#166534;display:none;align-items:center;gap:3px}
+.mod-dot{width:5px;height:5px;border-radius:50%;background:#F59E0B;display:inline-block;flex-shrink:0;margin-right:2px}
+.new-hint{font-size:11px;color:var(--color-text-tertiary);display:flex;align-items:center;gap:4px;margin-top:8px}
+@media (max-width:580px){
+  .hd{padding:14px 16px 11px}
+  .hd-brand{margin-bottom:8px}
+  .stat-n{font-size:22px}
+  .stats{gap:16px}
+  .ctrls{padding:8px 14px;gap:6px}
+  .srch{min-width:0;flex:1 1 100%;order:-1}
+  .fsel{flex:1;max-width:none;font-size:13px}
+  .rc{display:none}
+  .split{grid-template-columns:1fr;min-height:0}
+  .lp{border-right:none}
+  .rp{border-top:0.5px solid var(--color-border-tertiary);min-height:0}
+  .tw{max-height:calc(100vh - 280px);min-height:280px}
+  .t td{padding:12px 8px}
+  .t th{padding:8px 8px}
+  .bdg{padding:4px 10px;font-size:12px}
+  .emp{min-height:280px}
+  .ed{min-height:0}
+  .ed-ta{font-size:16px;min-height:180px}
+  .btn{min-height:40px;font-size:13px}
+  .mob-bar{display:flex}
+  .mob-back-btn{display:flex}
+  .split.mob-editor .lp{display:none}
+  .split.mob-list .rp{display:none}
+  .cn2{display:none}.crg{width:72px}.cst{width:86px}
+}
+</style>
+
+<div class="app">
+  <div class="hd">
+    <div class="hd-brand">Pomminvarmat Jätkät · Ryhmäjulkaisut</div>
+    <div class="hd-row">
+      <div class="stats">
+        <div><div class="stat-n" id="cnt-pub">—</div><div class="stat-l">julkaistu</div></div>
+        <div><div class="stat-n" id="cnt-wait">—</div><div class="stat-l">odottaa</div></div>
+        <div><div class="stat-n">154</div><div class="stat-l">yhteensä</div></div>
+      </div>
+      <div style="margin-top:2px">
+        <button class="btn btn-dn" id="btn-reset"><i class="ti ti-refresh" style="font-size:13px" aria-hidden="true"></i>Nollaa</button>
+      </div>
+    </div>
+    <div class="pbr">
+      <div class="pbr-b"><div class="pbr-f" id="prog-fill" style="width:0%"></div></div>
+      <span class="pbr-p" id="prog-pct">0%</span>
+    </div>
+  </div>
+  <div class="ctrls">
+    <label style="display:flex;align-items:center;cursor:pointer;padding:4px" title="Valitse kaikki näkyvät">
+      <input type="checkbox" id="cb-all">
+    </label>
+    <div class="srch">
+      <i class="ti ti-search srch-ic" aria-hidden="true"></i>
+      <input type="text" id="search" placeholder="Hae ryhmää tai aluetta...">
+    </div>
+    <select class="fsel" id="filter-region"><option value="">Kaikki alueet</option></select>
+    <select class="fsel" id="filter-status">
+      <option value="">Kaikki tilat</option>
+      <option value="JULKAISTU">Julkaistu</option>
+      <option value="ODOTTAA">Odottaa</option>
+    </select>
+    <span class="rc" id="row-count"></span>
+  </div>
+  <div class="split mob-list" id="split">
+    <div class="lp">
+      <div class="tw">
+        <table class="t">
+          <thead><tr>
+            <th class="cn"></th>
+            <th class="cn2">#</th>
+            <th class="cna">Ryhmä</th>
+            <th class="crg">Alue</th>
+            <th class="cst">Tila</th>
+          </tr></thead>
+          <tbody id="tbody"></tbody>
+        </table>
+      </div>
+      <div class="mob-bar" id="mob-bar">
+        <div>
+          <div class="mob-bar-l" id="mob-bar-l">0 valittu</div>
+          <div class="mob-bar-s" id="mob-bar-s"></div>
+        </div>
+        <button class="btn btn-pr" id="mob-open-ed" style="min-height:40px;padding:0 16px">
+          Avaa teksti <i class="ti ti-arrow-right" style="font-size:13px" aria-hidden="true"></i>
+        </button>
+      </div>
+    </div>
+    <div class="rp" id="right-panel"></div>
+  </div>
+</div>
+
+<script>
+const RAW=[["Tampere","Tampere","ODOTTAA"],["Karkkilan Puskaradio","Karkkila","JULKAISTU"],["Me ❤ Kerava","Kerava","JULKAISTU"],["Tuusulan Puskaradio","Tuusula","JULKAISTU"],["Turussa tapahtuu - LoveTurku","Turku","JULKAISTU"],["We love Tuusula","Tuusula","JULKAISTU"],["Tuusula","Tuusula","JULKAISTU"],["Porvoon elämää","Porvoo","JULKAISTU"],["karkkilan puskaradio","Karkkila","JULKAISTU"],["Kaleva, Kerava","Kerava","JULKAISTU"],["Kaupunginosien Turku","Turku","JULKAISTU"],["Koti Haukilahdesta/Westendistä","Espoo","JULKAISTU"],["Pikku Huopalahden yhteisö","Helsinki","JULKAISTU"],["Pikku Huopalahti","Helsinki","JULKAISTU"],["Tikkurilassa tapahtuu","Vantaa","JULKAISTU"],["Puskaradio Espoonlahti Kivenlahti Saunalahti","Espoo","JULKAISTU"],["The Westend","Espoo","JULKAISTU"],["Tarjotaan / Etsitään työsuorituksia Tampere Pirkanmaa","Tampere","ODOTTAA"],["Porvoolaisille","Porvoo","JULKAISTU"],["PUSKARADIO JA YRITYKSET ESPOO","Espoo","JULKAISTU"],["Puskaradio Sipoo","Sipoo","ODOTTAA"],["Porvoon Palveluita","Porvoo","JULKAISTU"],["puskaradio askola","Askola","ODOTTAA"],["Espoon keskus Esbo centrum","Espoo","JULKAISTU"],["Puskaradio TURKU","Turku","JULKAISTU"],["Turku Finland","Turku","JULKAISTU"],["Turku, Finland Today","Turku","JULKAISTU"],["Lamminpää","Tampere","ODOTTAA"],["Tuusulanjärvi","Tuusula","JULKAISTU"],["PuskaRadio Ylöjärvi","Pirkanmaa","ODOTTAA"],["Kaukajärven puskaradio","Tampere","ODOTTAA"],["Tampereella tapahtuu","Tampere","ODOTTAA"],["Kallio Puskaradio","Helsinki","JULKAISTU"],["Kaarinan alue","Kaarina","ODOTTAA"],["Hiekkaharjun puskaradio","Vantaa","ODOTTAA"],["Piikkiön asiat, yritykset, keskustelut","Turku","ODOTTAA"],["Kaarinan Piispanristi","Kaarina","ODOTTAA"],["Wanha Kaarina","Kaarina","ODOTTAA"],["Puskaradio Kaarina","Kaarina","ODOTTAA"],["Puskaradio Pirkanmaa","Pirkanmaa","ODOTTAA"],["PUSKARADIO PIRKANMAA","Pirkanmaa","ODOTTAA"],["Hirvensalo puskaradio","Turku","ODOTTAA"],["Hirvensalo-Kakskerta","Turku","ODOTTAA"],["Puskaradio TAMPERE","Tampere","ODOTTAA"],["Nokia City - Ilman sääntöjä","Nokia","ODOTTAA"],["NOKIA CITY","Nokia","ODOTTAA"],["Puskaradio Pirkkala","Pirkanmaa","ODOTTAA"],["Tampere (2)","Tampere","ODOTTAA"],["Työtä, palvelua tarjotaan / tarvitaan / Pirkanmaa","Pirkanmaa","ODOTTAA"],["HERVANTA","Tampere","ODOTTAA"],["Länsi-Tampere-ryhmä","Tampere","ODOTTAA"],["Tuskaradio Tampere - Tampereen vapaa puskaradio","Tampere","ODOTTAA"],["Tampere Puskaradio Sensuroimaton","Tampere","ODOTTAA"],["PuskaRario Tampere - Puskaradio","Tampere","ODOTTAA"],["Turku Palvelut | Suomi","Turku","JULKAISTU"],["puskaradio turku","Turku","JULKAISTU"],["Puskaradio ja Palvelut Turku!","Turku","JULKAISTU"],["REKRY: Etsitään / Tarjotaan töitä (Turku ja lähialueet)","Turku","JULKAISTU"],["Kellokoskelaisten ilmoitustaulu (vanha)","Kellokoski","ODOTTAA"],["Vartiokylä / Vartioharju","Helsinki","ODOTTAA"],["Koivukylässä tapahtuu","Vantaa","ODOTTAA"],["Töölö viidakkorumpu","Helsinki","JULKAISTU"],["Helsingin Yrittäjät","Yrittäjät","ODOTTAA"],["Punavuori","Helsinki","JULKAISTU"],["Yrittäjä: mainosta yritystäsi","Yrittäjät","ODOTTAA"],["Yrittäjät #ostapieneltä","Yrittäjät","ODOTTAA"],["Pienyrittäjien mainospaikka","Yrittäjät","ODOTTAA"],["Haluan ostaa pienyrittäjältä","Yrittäjät","ODOTTAA"],["Yrittäjän mainospaikka","Yrittäjät","ODOTTAA"],["Järvenpää","Järvenpää","ODOTTAA"],["Kellokoskelaisten Ilmoitustaulu","Kellokoski","JULKAISTU"],["Korson palvelut","Vantaa","ODOTTAA"],["Meidän Malmi","Helsinki","ODOTTAA"],["Munkkivuori","Helsinki","ODOTTAA"],["Herttoniemi","Helsinki","ODOTTAA"],["Käpyläläiset, Helsinki","Helsinki","ODOTTAA"],["KERAVA US","Kerava","JULKAISTU"],["Metsola Korso Vantaa","Vantaa","JULKAISTU"],["Tikkurila","Vantaa","JULKAISTU"],["Suur-Espoonlahti","Espoo","JULKAISTU"],["Espoonlahti","Espoo","JULKAISTU"],["Kirkkonummelaiset (sana vapaa)","Kirkkonummi","JULKAISTU"],["Kirkkonummelaiset Official","Kirkkonummi","JULKAISTU"],["Puskaradio Masala","Kirkkonummi","JULKAISTU"],["Sibbo - Sipoo","Sipoo","ODOTTAA"],["Puskaradio Helsinki","Helsinki","ODOTTAA"],["Pienyrittäjän ilmoitustaulu","Yrittäjät","ODOTTAA"],["Olari","Espoo","JULKAISTU"],["Suutarilassa tapahtuu","Helsinki","ODOTTAA"],["Hyvinkään ilmoitustaulu","Hyvinkää","ODOTTAA"],["Kaivoksela ja Vaskipelto","Vantaa","ODOTTAA"],["Kivistö","Vantaa","ODOTTAA"],["Mäntsälä","Mäntsälä","ODOTTAA"],["Mäntsälän Puskaradio","Mäntsälä","JULKAISTU"],["Hiekkaharjun ilmoitustaulu","Vantaa","ODOTTAA"],["Sipoon ilmoitustaulu","Sipoo","ODOTTAA"],["Mäntsäläläisten ilmoitustaulu","Mäntsälä","JULKAISTU"],["Herttoniemen ja lähiseudun ilmoitustaulu!","Helsinki","ODOTTAA"],["KERAVA ILMOITUSTAULU","Kerava","JULKAISTU"],["Oulunkylän ilmoitustaulu","Helsinki","ODOTTAA"],["Kannelmäki","Helsinki","JULKAISTU"],["Pitäjänmäki","Helsinki","ODOTTAA"],["Kontula","Helsinki","ODOTTAA"],["Mellunmäen puskaradio","Helsinki","ODOTTAA"],["Mellunmäki","Helsinki","ODOTTAA"],["Myrskylä","Myrskylä","ODOTTAA"],["Jokelalaisten mainostaulu","Jokela","ODOTTAA"],["Käpylän Ilmoitustaulu","Helsinki","ODOTTAA"],["Tapuli","Helsinki","ODOTTAA"],["Puistola","Helsinki","ODOTTAA"],["KONTULA","Helsinki","ODOTTAA"],["Myllypuron ilmoitustaulu","Helsinki","ODOTTAA"],["Pasila Böle","Helsinki","ODOTTAA"],["KIRKKONUMMI","Kirkkonummi","JULKAISTU"],["Puskaradio Munkkiniemi","Helsinki","ODOTTAA"],["Munkinseutu ilmoittaa","Helsinki","ODOTTAA"],["Vuosaari (Sensuroimaton)","Helsinki","JULKAISTU"],["Vuosaari (Uusi Vuosaari-ryhmä)","Helsinki","JULKAISTU"],["Vuosaari","Helsinki","JULKAISTU"],["Päiväkumpu Vantaa","Vantaa","JULKAISTU"],["Puskaradio Kauniainen / Grankulla","Kauniainen","ODOTTAA"],["Puskaradio Kauniainen","Kauniainen","JULKAISTU"],["Puskaradio Korso","Vantaa","ODOTTAA"],["Porvoon palvelut","Porvoo","JULKAISTU"],["Puskaradio Kerava","Kerava","JULKAISTU"],["Työtä ja Palveluja Tarjotaan/Tarvitaan VANTAA","Vantaa","JULKAISTU"],["Espoo – palvelut, tapahtumat ja tarjoukset","Espoo","JULKAISTU"],["Sipoo","Sipoo","ODOTTAA"],["Porvoolaisten ilmoitustaulu","Porvoo","JULKAISTU"],["Helsinki, Vantaa, Tuusula, Porvoo, Loviisa, Kotka: Palvelut","Pääkaupunkiseutu","JULKAISTU"],["Porvoo","Porvoo","JULKAISTU"],["Puotila-Vartiokylä","Helsinki","ODOTTAA"],["Kauklahdessa tapahtuu","Espoo","JULKAISTU"],["Ruskeasuo","Helsinki","ODOTTAA"],["Pohjois-Haaga","Helsinki","ODOTTAA"],["Vuosaari Puskaradio","Helsinki","JULKAISTU"],["Puskaradio Punavuori","Helsinki","JULKAISTU"],["Espoon avoin puskaradio","Espoo","JULKAISTU"],["Puskaradio Keski-Suomi","Keski-Suomi","ODOTTAA"],["Vantaan puskaradio","Vantaa","JULKAISTU"],["Puskaradio Espoo","Espoo","JULKAISTU"],["Espoo","Espoo","JULKAISTU"],["Puskaradio Espoo (sensuroimaton)","Espoo","JULKAISTU"],["Puskaradio Helsinki / Espoo / Vantaa","Pääkaupunkiseutu","ODOTTAA"],["Tikkurila, Vantaa","Vantaa","JULKAISTU"],["Puskaradio Vantaa","Vantaa","JULKAISTU"],["Länsi-Vantaa","Vantaa","JULKAISTU"],["Puskaradio Helsinki-Espoo-Vantaa","Pääkaupunkiseutu","ODOTTAA"],["Helsinki","Helsinki","JULKAISTU"],["Koskela, Helsinki","Helsinki","ODOTTAA"],["ITÄ-HELSINKI (vapaa keskustelu)","Helsinki","ODOTTAA"],["Helsingin Puskaradio","Helsinki","JULKAISTU"],["ITÄ-HELSINKI","Helsinki","ODOTTAA"],["Puskaradio Helsinki (2)","Helsinki","ODOTTAA"]];
+const GROUPS=RAW.map((r,i)=>({id:i+1,name:r[0],region:r[1],def:r[2]}));
+
+// Notion texts (predefined)
+const NT={vantaa:`Paljonko maksaa kolmion muutto Vantaalla? Tänään asiakas halusi muuttaa kolmiosta lyhyen matkan Vantaan sisällä, johon Jätkät totesivat vaan: "enemmän kantamista, vähemmän ajamista, jes!" Lähtöosoitteessa tavarat vedettiin pitkän käytävän läpi rappusille ja siitä vielä rappusia pitkin autolle. Tähän keikkaan laskettiin kotisivuillamme sopivaksi tällainen pulla-auto, johon menee yleensä kaksion–kolmion tavarat. Kaikki lastattiin tiiviisti ja herkimmät tavarat suojattiin, jotta tavarat kulkee ehjänä perille sinne uuteen kotiin asti!\nViimeisenä kyytiin nostettiin vielä grilli ja sitten ajettiin uudelle kodille Koivukylään.\nKassalle ei myöskään jätetty mitään pommeja ja nyt kuullaan etukäteen laskettu hinta:\n🟠 Kaksion muutto\n🟠 2 jätkää + Pulla-autollinen tavaraa (20m³)\n🟠 10km muuttoväli\n🟠 Herkimpien tavaroiden suojaus\n367€\nSelvitä oman muuton tai kuljetuksen tarkka hinta 3 minuutissa👀\nwww.pomminvarmatjatkat.fi`,uusimaa:`Paljonko maksaa kaksion muutto Espoonlahdesta Soukkaan? Tänään Jätkät hälytettiin muuttoon.\nPerillä vastassa oli klassikko: kaikki tavarat 3. kerroksessa, ei hissiä, mutta sehän kelpaa Jätkille pomminvarmasti💥\nJa nyt kuullaan hinta:\n🟠 Kaksion muutto Espoonlahti → Soukka\n🟠 2 jätkää + iso pakettiauto (12m³)\n🟠 10 km muuttoväli\n🟠 3. kerros (ei hissiä)\n313€\nSelvitä omasi hinta 3 minuutissa👀\nwww.pomminvarmatjatkat.fi`,turku:`Paljonko maksaa kaksion muutto Turussa? 👀\nTällä kertaa päivä alkoi Turusta, missä Jätkät muuttivat kaksion suurimmat kalusteet vain 300 metrin päähän.\nJa tämän muuttopalvelun hinta:\n🟠 2 Pomminvarmaa Jätkää\n🟠 Pakettiautollinen tavaraa (12m³)\n🟠 300m muuttoväli\n🟠 Herkimpien tavaroiden suojaus\n182€\nSelvitä oman muuttosi hinta muutamassa minuutissa:\nwww.pomminvarmatjatkat.fi`,helsinki:`Paljonko maksaa kaksion muutto Helsingin keskustassa? 👀\nTällä kertaa asiakas muutti kaikki tavarat Kallion sisällä.\nJa nyt kuullaan hinta:\n🟠 2 Pomminvarmaa Jätkää\n🟠 2 pakettiautollista tavaraa (22m³)\n🟠 2km muuttoväli\n🟠 Kanto 2. kerroksesta pakulle\n414€\nSelvitä oman muuton hinta muutamassa minuutissa:\nwww.pomminvarmatjatkat.fi`,espoo:`Paljonko maksaa kolmion muutto Espoossa? 👀\nTällä kertaa asiakas muutti kolmion tavarat Espoossa.\nJa tämän muuttopalvelun hinta:\n🟠 2 Pomminvarmaa Jätkää\n🟠 2 pakettiautollista tavaraa (24m³)\n🟠 3+3=6km muuttoväli\n🟠 Herkimpien tavaroiden suojaus\n392€\nSelvitä oman hinta muutamassa minuutissa:\nwww.pomminvarmatjatkat.fi`,kirkkonummi:`Paljon maksaa muutto Kirkkonummella? 👀\nTällä kertaa asiakas löysi Jätkät somesta ja halusi muuttaa kolmion tavarat paritaloon pomminvarmasti 💥\nJa tämän muuttopalvelun hinta oli:\n🟠 2 Pomminvarmaa Jätkää\n🟠 Iso pakettiautollinen tavaraa (16m³)\n🟠 4 km muuttoväli\n286€\nSelvitä muuton tai kuljetuksen hinta 3 minuutissa:\nwww.pomminvarmatjatkat.fi`,porvoo:`Paljonko maksaa ison kolmion muutto Porvoossa? 👀\nTänään Jätkät oli Porvoossa.\nNyt kuullaan tämän muuttopalvelun hinta:\n🟠 3 Pomminvarmaa Jätkää\n🟠 2 pulla-autollista tavaraa\n🟠 3. kerros ilman hissiä\n1020€\nSelvitä oman muuttosi hinta muutamassa minuutissa:\nwww.pomminvarmatjatkat.fi`,itahelsinki:`Paljonko maksaa Itä-Helsingin edullisin kaksion muutto? 👀\nTällä kertaa Jätkät oli Vuosaaressa muuttamassa pelkät huonekalut viereiseen rakennukseen.\nJa tämän muuttopalvelun hinta oli:\n🟠 2 Pomminvarmaa Jätkää\n🟠 Pakettiautollinen tavaraa (12m³)\n🟠 500 m muuttoväli\n205€\nSelvitä oman muuttosi hinta muutamassa minuutissa:\nwww.pomminvarmatjatkat.fi`};
+
+// Predefined Notion labels
+const NL={vantaa:"Vantaa",uusimaa:"Uusimaa",turku:"Turku",helsinki:"Helsinki",espoo:"Espoo",kirkkonummi:"Kirkkonummi",porvoo:"Porvoo",itahelsinki:"Itä-Helsinki"};
+
+// Maps region → text key; unmapped regions get "cust_REGION" key dynamically
+const RM={Vantaa:"vantaa",Helsinki:"helsinki",Espoo:"espoo",Turku:"turku",Kaarina:"turku",Kirkkonummi:"kirkkonummi",Porvoo:"porvoo",Pääkaupunkiseutu:"uusimaa",Kerava:"uusimaa",Tuusula:"uusimaa",Sipoo:"uusimaa",Karkkila:"uusimaa",Askola:"uusimaa",Kellokoski:"uusimaa",Järvenpää:"uusimaa",Hyvinkää:"uusimaa",Mäntsälä:"uusimaa",Myrskylä:"uusimaa",Jokela:"uusimaa",Kauniainen:"espoo"};
+
+function keyFor(region){return RM[region]||('cust_'+region);}
+function isCustomKey(k){return k&&k.startsWith('cust_');}
+function labelFor(k){
+  if(NL[k])return NL[k];
+  if(isCustomKey(k))return k.slice(5); // strip "cust_"
+  return k;
+}
+function isNotionKey(k){return!!NT[k];}
+
+let statuses={},selected=new Set(),customTexts={},searchQ='',filterReg='',filterSt='',filteredGroups=[],activePanelKey=null;
+
+const rSel=document.getElementById('filter-region');
+[...new Set(GROUPS.map(g=>g.region))].sort().forEach(r=>{const o=document.createElement('option');o.value=r;o.textContent=r;rSel.appendChild(o);});
+
+function isMob(){return window.innerWidth<580;}
+function splitEl(){return document.getElementById('split');}
+function openMobEditor(){const s=splitEl();s.classList.remove('mob-list');s.classList.add('mob-editor');renderRight();document.getElementById('right-panel').scrollIntoView({behavior:'smooth',block:'start'});}
+function closeMobEditor(){const s=splitEl();s.classList.remove('mob-editor');s.classList.add('mob-list');}
+
+async function loadStorage(){
+  try{const r=await window.storage.get('fb_group_statuses');if(r&&r.value)statuses=JSON.parse(r.value);else GROUPS.forEach(g=>{statuses[g.id]=g.def;});}
+  catch(e){GROUPS.forEach(g=>{statuses[g.id]=g.def;});}
+  try{const ct=await window.storage.get('fb_custom_texts');if(ct&&ct.value)customTexts=JSON.parse(ct.value);}catch(e){}
+  render();
+}
+async function saveSt(){try{await window.storage.set('fb_group_statuses',JSON.stringify(statuses));}catch(e){}}
+async function saveCT(){try{await window.storage.set('fb_custom_texts',JSON.stringify(customTexts));}catch(e){}}
+
+// Get text: custom override first, then Notion default, then empty string
+function getTxt(k){
+  if(customTexts[k]!==undefined)return customTexts[k];
+  if(NT[k])return NT[k];
+  return ''; // new/empty custom key
+}
+function isEmpty(k){return getTxt(k)==='';}
+function esc(s){return s.replace(/&/g,'&amp;').replace(/</g,'&lt;').replace(/>/g,'&gt;');}
+function flash(id){const el=document.getElementById(id);if(!el)return;el.style.display='inline-flex';setTimeout(()=>el.style.display='none',2000);}
+
+function toggleSt(id){statuses[id]=statuses[id]==='JULKAISTU'?'ODOTTAA':'JULKAISTU';saveSt();render();}
+function toggleSel(id){if(selected.has(id))selected.delete(id);else selected.add(id);render();}
+
+function getSelKeys(){
+  const selG=GROUPS.filter(g=>selected.has(g.id));
+  const kf={};
+  // Every region always gets a key now
+  selG.forEach(g=>{const k=keyFor(g.region);kf[k]=(kf[k]||0)+1;});
+  return {kf,keys:Object.keys(kf).sort((a,b)=>kf[b]-kf[a])};
+}
+
+function updateMobBar(){
+  const bar=document.getElementById('mob-bar');
+  if(!bar)return;
+  if(selected.size===0){bar.style.display='none';return;}
+  bar.style.display='flex';
+  document.getElementById('mob-bar-l').textContent=selected.size+' ryhmää valittu';
+  const{keys}=getSelKeys();
+  document.getElementById('mob-bar-s').textContent=keys.map(k=>labelFor(k)).join(', ');
+  const btn=document.getElementById('mob-open-ed');
+  if(btn)btn.onclick=()=>openMobEditor();
+}
+
+function render(){
+  const pub=Object.values(statuses).filter(s=>s==='JULKAISTU').length;
+  document.getElementById('cnt-pub').textContent=pub;
+  document.getElementById('cnt-wait').textContent=Object.values(statuses).filter(s=>s==='ODOTTAA').length;
+  const pct=Math.round(pub/154*100);
+  document.getElementById('prog-fill').style.width=pct+'%';
+  document.getElementById('prog-pct').textContent=pct+'%';
+  filteredGroups=GROUPS.filter(g=>{
+    const s=statuses[g.id]||g.def;
+    return(!searchQ||g.name.toLowerCase().includes(searchQ.toLowerCase())||g.region.toLowerCase().includes(searchQ.toLowerCase()))
+      &&(!filterReg||g.region===filterReg)&&(!filterSt||s===filterSt);
+  });
+  document.getElementById('row-count').textContent=filteredGroups.length+' näkyvissä';
+  renderRows();
+  updateMobBar();
+  if(!isMob()||splitEl().classList.contains('mob-editor'))renderRight();
+}
+
+function renderRows(){
+  const tbody=document.getElementById('tbody');
+  tbody.innerHTML='';
+  filteredGroups.forEach(g=>{
+    const s=statuses[g.id]||g.def;
+    const isSel=selected.has(g.id);
+    const k=keyFor(g.region);
+    const hasOwnText=isCustomKey(k)&&isEmpty(k); // custom region with no text yet
+    const tr=document.createElement('tr');
+    if(isSel)tr.className='sr';
+    tr.innerHTML=`<td class="cn" style="text-align:center"><input type="checkbox" data-cb="${g.id}" ${isSel?'checked':''}></td><td class="cn2">${g.id}</td><td class="cna" title="${g.name}">${g.name}</td><td class="crg"><span class="rtag" title="${hasOwnText?'Ei tekstiä — klikkaa lisätäksesi':''}" style="${hasOwnText?'border-color:var(--color-border-warning);color:var(--color-text-warning)':''}">${g.region}</span></td><td class="cst"><span class="bdg ${s==='JULKAISTU'?'bok':'bwt'}" data-bid="${g.id}">${s==='JULKAISTU'?'✓ Julkaistu':'Odottaa'}</span></td>`;
+    tr.addEventListener('click',e=>{if(e.target.closest('.bdg')||e.target.type==='checkbox')return;toggleSel(g.id);});
+    tbody.appendChild(tr);
+  });
+  document.querySelectorAll('.bdg[data-bid]').forEach(b=>b.addEventListener('click',e=>{e.stopPropagation();toggleSt(parseInt(b.dataset.bid));}));
+  document.querySelectorAll('input[data-cb]').forEach(cb=>cb.addEventListener('change',()=>{const id=parseInt(cb.dataset.cb);if(cb.checked)selected.add(id);else selected.delete(id);render();}));
+  const allSel=filteredGroups.length>0&&filteredGroups.every(g=>selected.has(g.id));
+  const someSel=filteredGroups.some(g=>selected.has(g.id));
+  const cbAll=document.getElementById('cb-all');
+  cbAll.checked=allSel;cbAll.indeterminate=!allSel&&someSel;
+}
+
+function renderRight(){
+  const panel=document.getElementById('right-panel');
+  if(selected.size===0){
+    panel.innerHTML=`<div class="emp"><div class="emp-ic"><i class="ti ti-notes" aria-hidden="true"></i></div><div class="emp-t">Valitse ryhmiä</div><div class="emp-s">Klikkaa rivejä tai valitse kaikki ylälaidan valintaruudusta</div></div>`;
+    return;
+  }
+  const{kf,keys}=getSelKeys();
+  if(!activePanelKey||!keys.includes(activePanelKey))activePanelKey=keys[0]||null;
+  if(!activePanelKey){panel.innerHTML='<div class="emp"><div class="emp-t">—</div></div>';return;}
+
+  const curTxt=getTxt(activePanelKey);
+  const isNew=isCustomKey(activePanelKey)&&curTxt==='';
+  const isMod=customTexts[activePanelKey]!==undefined;
+  const isNotion=isNotionKey(activePanelKey);
+  const mob=isMob();
+
+  const backBtn=mob?`<button class="mob-back-btn" id="btn-back"><i class="ti ti-arrow-left" style="font-size:14px" aria-hidden="true"></i>Takaisin listaan</button>`:'';
+
+  // Tabs: show label + count, mark new/empty custom keys with "UUS" badge
+  const tabsHtml=keys.length>1?`<div class="ed-tabs">${keys.map(k=>{
+    const isNewTab=isCustomKey(k)&&getTxt(k)==='';
+    return `<button class="etab${k===activePanelKey?' act':''}" data-tab="${k}">${labelFor(k)}<span class="etab-ct">${kf[k]}</span>${isNewTab?'<span class="etab-new">UUS</span>':''}</button>`;
+  }).join('')}</div>`:'';
+
+  // Subline
+  let subLine='';
+  if(isNew)subLine='Uusi alue — kirjoita teksti alle';
+  else if(isNotion&&!isMod)subLine=`${labelFor(activePanelKey)} — ${kf[activePanelKey]} ryhmää · Notion`;
+  else subLine=`${labelFor(activePanelKey)} — ${kf[activePanelKey]} ryhmää`;
+
+  const newHint=isNew?`<div class="new-hint"><i class="ti ti-info-circle" style="font-size:13px" aria-hidden="true"></i>Kirjoita teksti ja paina Tallenna. Se tallentuu kaikille ${kf[activePanelKey]} ${labelFor(activePanelKey)}-ryhmälle.</div>`:'';
+
+  panel.innerHTML=`<div class="ed">
+    <div class="ed-top">
+      ${backBtn}
+      <div class="ed-cnt">${selected.size} ryhmää valittu</div>
+      <div class="ed-sub">${subLine}</div>
+      ${tabsHtml}
+    </div>
+    <div class="ed-body">
+      ${newHint}
+      <textarea class="ed-ta${isNew?' is-new':''}" id="notion-ta" spellcheck="false" placeholder="${isNew?'Kirjoita julkaisuteksti tälle alueelle...':''}">${esc(curTxt)}</textarea>
+    </div>
+    <div class="ed-ft">
+      <button class="btn btn-pr" id="btn-cp" style="${isNew?'opacity:.4;pointer-events:none':''}flex:0"><i class="ti ti-copy" style="font-size:13px"></i>Kopioi</button>
+      <button class="btn" id="btn-sv"><i class="ti ti-device-floppy" style="font-size:13px"></i>${isMod&&!isNew?'<span class="mod-dot"></span>':''}${isNew?'Luo teksti':'Tallenna'}</button>
+      ${isNotion&&!isNew?`<button class="btn btn-gh" id="btn-rst" title="Palauta Notionin alkuperäinen"><i class="ti ti-rotate" style="font-size:12px"></i></button>`:''}
+      ${!isNew&&isMod&&isCustomKey(activePanelKey)?`<button class="btn btn-gh" id="btn-del" title="Poista tallennettu teksti"><i class="ti ti-trash" style="font-size:12px"></i></button>`:''}
+      <span class="fl" id="fl-cp"><i class="ti ti-check" style="font-size:11px"></i>Kopioitu</span>
+      <span class="fl" id="fl-sv"><i class="ti ti-check" style="font-size:11px"></i>${isNew?'Luotu!':'Tallennettu'}</span>
+      <span class="cc" id="cc">${curTxt.length}</span>
+    </div>
+  </div>`;
+
+  if(mob)document.getElementById('btn-back')?.addEventListener('click',closeMobEditor);
+  document.querySelectorAll('.etab[data-tab]').forEach(tab=>tab.addEventListener('click',()=>{activePanelKey=tab.dataset.tab;renderRight();}));
+  const ta=document.getElementById('notion-ta');
+  ta.addEventListener('input',()=>{
+    document.getElementById('cc').textContent=ta.value.length;
+    // Enable copy button once text is entered
+    const cpBtn=document.getElementById('btn-cp');
+    if(cpBtn)cpBtn.style.cssText='flex:0';
+  });
+  document.getElementById('btn-cp').addEventListener('click',()=>{if(ta.value)navigator.clipboard.writeText(ta.value).then(()=>flash('fl-cp'));});
+  document.getElementById('btn-sv').addEventListener('click',async()=>{
+    const val=ta.value.trim();
+    if(!val){ta.focus();ta.style.borderColor='#E24B4A';setTimeout(()=>ta.style.borderColor='',1500);return;}
+    customTexts[activePanelKey]=ta.value;
+    await saveCT();
+    flash('fl-sv');
+    setTimeout(()=>renderRight(),1800);
+  });
+  document.getElementById('btn-rst')?.addEventListener('click',()=>{if(!confirm('Palautetaanko Notionin alkuperäinen teksti?'))return;delete customTexts[activePanelKey];saveCT();renderRight();});
+  document.getElementById('btn-del')?.addEventListener('click',()=>{if(!confirm('Poistetaanko tallennettu teksti? Aluetta ei voi enää käyttää ilman uutta tekstiä.'))return;delete customTexts[activePanelKey];saveCT();renderRight();});
+}
+
+document.getElementById('cb-all').addEventListener('change',function(){
+  if(this.checked)filteredGroups.forEach(g=>selected.add(g.id));
+  else filteredGroups.forEach(g=>selected.delete(g.id));
+  render();
+});
+document.getElementById('search').addEventListener('input',e=>{searchQ=e.target.value;render();});
+document.getElementById('filter-region').addEventListener('change',e=>{filterReg=e.target.value;render();});
+document.getElementById('filter-status').addEventListener('change',e=>{filterSt=e.target.value;render();});
+document.getElementById('btn-reset').addEventListener('click',()=>{
+  if(!confirm('Nollataan kaikkien 154 ryhmän tilat → Odottaa?'))return;
+  GROUPS.forEach(g=>{statuses[g.id]='ODOTTAA';});saveSt();render();
+});
+window.addEventListener('resize',()=>{
+  const s=splitEl();
+  if(!isMob()){s.classList.remove('mob-list','mob-editor');}
+  else if(!s.classList.contains('mob-editor'))s.classList.add('mob-list');
+  render();
+});
+loadStorage();
+</script>
